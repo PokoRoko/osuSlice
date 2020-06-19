@@ -4,7 +4,7 @@
 '''
 
 
-osu_file_format_v14 = {'osu_fail_ver':'',
+osu_file_format_v14 = {'osu_file_ver':[],
                         '[General]': [],
                         '[Editor]': [],
                         '[Metadata]': [],
