@@ -63,7 +63,6 @@ def edit_new_TimingPoints(train_config,
 
     len_old = len(train_config['[TimingPoints]'])  # Определяем длину списка для количества повторений
     count_repeats = 0  # Считает количество повторов и умнажает их в цикле
-
     #  Вырезает все параметры до момента с которого должны начаться повторы
     max_delete = []
     for i in new_TimingPoints:
@@ -78,10 +77,9 @@ def edit_new_TimingPoints(train_config,
     for i in new_TimingPoints:
         if i != '':  # Лютый костыль изза которого появляются новые значения(некритично)
             i = i.split(',')  # Переводим строку в список
-            if and_slice_point < int(i[0]) > begin_slice_point:  # Отсечка по вырезаемомму отрезку
+            if int(i[0]) > begin_slice_point:  # Отсечка по вырезаемомму отрезку
                 i[0] = str(int(i[0]) + len_segment)  # Добавлям длину участка
                 str_i = ','.join(i)  # Собираем обратно в строку
-#                print(str_i)
                 new_TimingPoints.append(str_i)  # Добавляем строку с новым временем в конфиг
                 count_repeats += 1  # Добвляем счетчик
         if count_repeats == num_repeats*len_old:
@@ -110,7 +108,6 @@ def edit_new_HitObjects(train_config,
         # Добавлям к точке обьекта время переноса равное длине участка
         i[2] = str(int(i[2]) + len_segment)
         str_i = ','.join(i)  # Собираем обратно в строку
-#        print(str_i)
         new_HitObjects.append(str_i)  # Добавляем строку с новым временем в конфиг
         count_repeats += 1  # Добвляем счетчик
         if count_repeats == num_repeats*len_old:
