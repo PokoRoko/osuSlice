@@ -40,13 +40,54 @@ def and_slice_point(dict_train_config):
     print(f"define and_slice_point: {search_max}")
     return int(search_max)
 
-train_config = read_train_config('obrazec_v14.osu')
-begin = begin_slice_point(train_config)
-andd = and_slice_point(train_config)
+
 
 
 # Нужно определить интервал между вставками и привязаться к срезам [TimingPoints] и [HitObjects]
 # Ну а тут самая жуть, так как требуется учесть кучу параметров, а потом еще и записать всё в файл.
+
+
+def edit_new_TimingPoints(train_config,
+                        begin_slice_point,
+                        and_slice_point,
+                        num_repeats):
+
+    """
+    !!!
+    Обратить внимание на этот участок т.к добавляем абсолютно ровную длину отрезка, первая и последняя точка сходятся!
+    Имеет смысл именно в этом месте закладывать дополнительный участок для переходал
+    !!!
+    """
+    len_segment = and_slice_point - begin_slice_point
+    new_TimingPoints = train_config['[TimingPoints]']
+
+    len_old = len(train_config['[TimingPoints]'])  # Определяем длину списка для количества повторений
+    count_repeats = 0  # Считает количество повторов и умнажает их в цикле
+
+    #  Вырезает все параметры до момента с которого должны начаться повторы
+    max_delete = []
+    for i in new_TimingPoints:
+        if i != '':
+            j = i.split(',')
+            if int(j[0]) >= and_slice_point:
+                max_delete += [i]
+    for i in max_delete:
+        new_TimingPoints.remove(i)
+
+    # Конфигурируем и создаем новые тайминговые точки
+    for i in new_TimingPoints:
+        if i != '':  # Лютый костыль изза которого появляются новые значения(некритично)
+            i = i.split(',')  # Переводим строку в список
+            if and_slice_point < int(i[0]) > begin_slice_point:  # Отсечка по вырезаемомму отрезку
+                i[0] = str(int(i[0]) + len_segment)  # Добавлям длину участка
+                str_i = ','.join(i)  # Собираем обратно в строку
+#                print(str_i)
+                new_TimingPoints.append(str_i)  # Добавляем строку с новым временем в конфиг
+                count_repeats += 1  # Добвляем счетчик
+        if count_repeats == num_repeats*len_old:
+            break
+    return new_TimingPoints
+
 
 def edit_new_HitObjects(train_config,
                         begin_slice_point,
@@ -63,53 +104,25 @@ def edit_new_HitObjects(train_config,
     new_HitObjects = train_config['[HitObjects]']
 
     len_old = len(train_config['[HitObjects]'])
-    count_repeats = 0 # Считает количество повторов и умнажает их в цикле
+    count_repeats = 0  # Считает количество повторов и умнажает их в цикле
     for i in new_HitObjects:
         i = i.split(',')  # Переводим строку в список
-        # Добавлям к точке обьекта время переноса равное длине участка c перемножением на счет
+        # Добавлям к точке обьекта время переноса равное длине участка
         i[2] = str(int(i[2]) + len_segment)
         str_i = ','.join(i)  # Собираем обратно в строку
-        print(str_i)
+#        print(str_i)
         new_HitObjects.append(str_i)  # Добавляем строку с новым временем в конфиг
         count_repeats += 1  # Добвляем счетчик
         if count_repeats == num_repeats*len_old:
             break
     return new_HitObjects
 
+train_config = read_train_config('obrazec_v14.osu')
+begin = begin_slice_point(train_config)
+andd = and_slice_point(train_config)
 
-
-def edit_new_TimingPoints(train_config,
-                        begin_slice_point,
-                        and_slice_point,
-                        num_repeats):
-
-    """
-    !!!
-    Обратить внимание на этот участок т.к добавляем абсолютно ровную длину отрезка, первая и последняя точка сходятся!
-    Имеет смысл именно в этом месте закладывать дополнительный участок для переходал
-    !!!
-    """
-    len_segment = and_slice_point - begin_slice_point
-
-    new_TimingPoints = train_config['[TimingPoints]']
-
-    len_old = len(train_config['[TimingPoints]'])  # Определяем длину списка для количества повторений
-    count_repeats = 0 # Считает количество повторов и умнажает их в цикле
-    for i in new_TimingPoints:
-
-        if i != '':
-            i = i.split(',')  # Переводим строку в список
-            # Добавлям к точке обьекта время переноса равное длине участка c перемножением на счет
-            i[0] = str(int(i[0]) + len_segment)
-            str_i = ','.join(i)  # Собираем обратно в строку
-            print(str_i)
-            new_TimingPoints.append(str_i)  # Добавляем строку с новым временем в конфиг
-            count_repeats += 1  # Добвляем счетчик
-
-        if count_repeats == num_repeats*len_old:
-            break
-    return new_TimingPoints
-
-
-print(edit_new_HitObjects(train_config,begin,andd,1))
-print(edit_new_TimingPoints(train_config,begin,andd,1))
+train_config['[HitObjects]'] = edit_new_HitObjects(train_config,begin,andd,1)
+train_config['[TimingPoints]'] = edit_new_TimingPoints(train_config,begin,andd,1)
+result = train_config
+len_segment = andd - begin
+print(f"define len segment: {len_segment}")
