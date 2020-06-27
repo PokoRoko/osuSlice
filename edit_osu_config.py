@@ -1,5 +1,6 @@
 from osuSlice.osu_format import osu_file_format_v14
 
+
 # Функция считывает файл конфига и возвращает его словарь
 def read_train_config(file_adress):
     file = open(file_adress, 'r')
@@ -25,37 +26,32 @@ def begin_slice_point(dict_train_config):
         i = i.split(',')
         if int(i[2]) < search_min:
             search_min = int(i[2])
-    print (f"define begin_slice_point: {search_min}")
+    print (f"Define begin slice point: {search_min}")
     return int(search_min)
 
 
 # Функция для определения конца среза
-def and_slice_point(dict_train_config):
+def end_slice_point(dict_train_config):
     d = dict_train_config['[HitObjects]']
     search_max = 0
     for i in d:
         i = i.split(',')
         if int(i[2]) > search_max:
             search_max = int(i[2])
-    print(f"define and_slice_point: {search_max}")
+    print(f"Define end slice point: {search_max}")
     return int(search_max)
-
-
 
 
 # Нужно определить интервал между вставками и привязаться к срезам [TimingPoints] и [HitObjects]
 # Ну а тут самая жуть, так как требуется учесть кучу параметров, а потом еще и записать всё в файл.
-
-
 def edit_new_TimingPoints(train_config,
-                        begin_slice_point,
-                        and_slice_point,
-                        num_repeats):
+                          begin_slice_point,
+                          and_slice_point,
+                          num_repeats):
 
     """
     !!!
-    Обратить внимание на этот участок т.к добавляем абсолютно ровную длину отрезка, первая и последняя точка сходятся!
-    Имеет смысл именно в этом месте закладывать дополнительный участок для переходал
+    В этой функции некоректно отлажен счетчик повторов
     !!!
     """
     len_segment = and_slice_point - begin_slice_point
@@ -97,8 +93,8 @@ def edit_new_HitObjects(train_config,
     Имеет смысл именно в этом месте закладывать дополнительный участок для переходал
     !!!
     """
-    len_segment = and_slice_point - begin_slice_point
 
+    len_segment = and_slice_point - begin_slice_point
     new_HitObjects = train_config['[HitObjects]']
 
     len_old = len(train_config['[HitObjects]'])
@@ -107,19 +103,13 @@ def edit_new_HitObjects(train_config,
         i = i.split(',')  # Переводим строку в список
         # Добавлям к точке обьекта время переноса равное длине участка
         i[2] = str(int(i[2]) + len_segment)
+        # !!! проверка типа обьекта на дополнительный параметр времени
+        if i[3] == 12:
+            # Добавлям к точке обьекта время переноса равное длине участка
+            i[5] = str(int(i[5]) + len_segment)
         str_i = ','.join(i)  # Собираем обратно в строку
         new_HitObjects.append(str_i)  # Добавляем строку с новым временем в конфиг
         count_repeats += 1  # Добвляем счетчик
         if count_repeats == num_repeats*len_old:
             break
     return new_HitObjects
-
-train_config = read_train_config('obrazec_v14.osu')
-begin = begin_slice_point(train_config)
-andd = and_slice_point(train_config)
-
-train_config['[HitObjects]'] = edit_new_HitObjects(train_config,begin,andd,1)
-train_config['[TimingPoints]'] = edit_new_TimingPoints(train_config,begin,andd,1)
-result = train_config
-len_segment = andd - begin
-print(f"define len segment: {len_segment}")

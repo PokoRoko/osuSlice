@@ -1,11 +1,11 @@
-from osuSlice.edit_osu_config import result
 
-def write_config_file(train_config):
+def write_config_file(train_config, name_new_mp3):
     f = open('Train [train]', 'tw', encoding='utf-8')
+    train_config['[General]'][0] = f"AudioFilename: {name_new_mp3}"
     key = train_config.keys()
     for i in key:
         f.write(i +'\n')
         for j in train_config[i]:
             f.write(j + '\n')
     f.close()
-write_config_file(result)
+    print(f"Created new train config file: (Train [train].osu)")
