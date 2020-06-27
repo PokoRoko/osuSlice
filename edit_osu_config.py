@@ -3,7 +3,7 @@ from osuSlice.osu_format import osu_file_format_v14
 
 # Функция считывает файл конфига и возвращает его словарь
 def read_train_config(file_adress):
-    file = open(file_adress, 'r')
+    file = open(file_adress, 'r', encoding='utf-8')
     config = osu_file_format_v14
     config_name = config.keys()
     key_for_key = 'osu_file_ver'
@@ -104,7 +104,7 @@ def edit_new_HitObjects(train_config,
         # Добавлям к точке обьекта время переноса равное длине участка
         i[2] = str(int(i[2]) + len_segment)
         # !!! проверка типа обьекта на дополнительный параметр времени
-        if i[3] == 12:
+        if int(i[3]) == 12:
             # Добавлям к точке обьекта время переноса равное длине участка
             i[5] = str(int(i[5]) + len_segment)
         str_i = ','.join(i)  # Собираем обратно в строку

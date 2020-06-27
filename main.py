@@ -9,27 +9,30 @@ from pydub import AudioSegment
 # Settings
 
 # Путь к исходному файлу с настроками
-train_config = read_train_config('obrazec_v14.osu')
+train_config = read_train_config('train.osu')
 # Путь к исходному файлу mp3
 original_mp3 = AudioSegment.from_mp3("audio.mp3")
 # Имя нового файла на выходе
-name_new_mp3 = "myTrain.mp3"
+name_new_config = "new train config.osu"
+# Имя нового mp3 на выходе
+name_new_mp3 = "mytrain.mp3"
 # Количество повторов
-num_repeats = 3
-
+num_repeats = 20
+# Время разрыва между повторами
+break_time = 4000
 
 # Работа программы
 
 # Определяет начало отрезка в мс
 begin = begin_slice_point(train_config)
 # Определяет конец отрезка в в мс
-end = end_slice_point(train_config)
+end = end_slice_point(train_config)+break_time
 # Создаем новое наполнение для HitObjects
 train_config['[HitObjects]'] = edit_new_HitObjects(train_config, begin, end, num_repeats)
 # Создаем новое наполнение для TimingPoints
 train_config['[TimingPoints]'] = edit_new_TimingPoints(train_config, begin, end, num_repeats)
 # Записывает в новый конфиг
-write_config_file(train_config,name_new_mp3)
+write_config_file(train_config, name_new_config,name_new_mp3)
 # Сохраннение нового файла mp3
 edit_train_mp3(original_mp3, begin, end, num_repeats, name_new_mp3)
 
