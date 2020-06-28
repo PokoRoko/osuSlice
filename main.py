@@ -19,14 +19,15 @@ name_new_mp3 = "mytrain.mp3"
 # Количество повторов
 num_repeats = 20
 # Время разрыва между повторами
-break_time = 4000
+break_time = 6000
+
 
 # Работа программы
 
 # Определяет начало отрезка в мс
-begin = begin_slice_point(train_config)
+begin = begin_slice_point(train_config) + int(break_time/2)
 # Определяет конец отрезка в в мс
-end = end_slice_point(train_config)+break_time
+end = end_slice_point(train_config) + int(break_time/2)
 # Создаем новое наполнение для HitObjects
 train_config['[HitObjects]'] = edit_new_HitObjects(train_config, begin, end, num_repeats)
 # Создаем новое наполнение для TimingPoints
@@ -34,7 +35,7 @@ train_config['[TimingPoints]'] = edit_new_TimingPoints(train_config, begin, end,
 # Записывает в новый конфиг
 write_config_file(train_config, name_new_config,name_new_mp3)
 # Сохраннение нового файла mp3
-edit_train_mp3(original_mp3, begin, end, num_repeats, name_new_mp3)
+edit_train_mp3(original_mp3, begin, end, num_repeats, break_time, name_new_mp3)
 
 
 
