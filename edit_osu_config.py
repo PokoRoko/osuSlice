@@ -15,6 +15,7 @@ def read_train_config(file_adress):
         else:
             x = config[key_for_key] + [line]
             config[key_for_key] = x
+    file.close()
     return config
 
 
