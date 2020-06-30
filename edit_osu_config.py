@@ -2,9 +2,9 @@ from osuSlice.osu_format import osu_file_format_v14
 
 
 # Функция считывает файл конфига и возвращает его словарь
-def read_train_config(file_adress):
-    file = open(file_adress, 'r', encoding='utf-8')
-    config = osu_file_format_v14
+def read_train_config(file_address):
+    file = open(file_address, 'r', encoding='utf-8')
+    config = osu_file_format_v14.copy()
     config_name = config.keys()
     key_for_key = 'osu_file_ver'
 
@@ -27,7 +27,7 @@ def begin_slice_point(dict_train_config):
         i = i.split(',')
         if int(i[2]) < search_min:
             search_min = int(i[2])
-    print (f"Define begin slice point: {search_min}")
+#    print (f"Define begin slice point: {search_min}")
     return int(search_min)
 
 
@@ -39,7 +39,7 @@ def end_slice_point(dict_train_config):
         i = i.split(',')
         if int(i[2]) > search_max:
             search_max = int(i[2])
-    print(f"Define end slice point: {search_max}")
+#    print(f"Define end slice point: {search_max}")
     return int(search_max)
 
 
@@ -79,7 +79,7 @@ def edit_new_TimingPoints(train_config,
                 str_i = ','.join(i)  # Собираем обратно в строку
                 new_TimingPoints.append(str_i)  # Добавляем строку с новым временем в конфиг
                 count_repeats += 1  # Добвляем счетчик
-        if count_repeats == num_repeats*len_old:
+        if count_repeats == num_repeats*(len_old-len(max_delete)):
             break
     return new_TimingPoints
 
@@ -88,12 +88,6 @@ def edit_new_HitObjects(train_config,
                         begin_slice_point,
                         and_slice_point,
                         num_repeats):
-    """
-    !!!
-    Обратить внимание на этот участок т.к добавляем абсолютно ровную длину отрезка, первая и последняя точка сходятся!
-    Имеет смысл именно в этом месте закладывать дополнительный участок для переходал
-    !!!
-    """
 
     len_segment = and_slice_point - begin_slice_point
     new_HitObjects = train_config['[HitObjects]']
