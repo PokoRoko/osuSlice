@@ -27,7 +27,7 @@ break_time = 10000
 # Работа программы
 
 # Определяет начало отрезка в мс
-begin = begin_slice_point(train_config) + int(break_time/2)
+begin = begin_slice_point(train_config) - int(break_time/2)
 # Определяет конец отрезка в в мс
 end = end_slice_point(train_config) + int(break_time/2)
 # Создаем новое наполнение для HitObjects
