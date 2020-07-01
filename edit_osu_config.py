@@ -1,4 +1,4 @@
-from osuSlice.osu_format import osu_file_format_v14
+from osu_format import osu_file_format_v14
 
 
 # Функция считывает файл конфига и возвращает его словарь

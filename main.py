@@ -1,12 +1,12 @@
 # MAIN osuSlice
-from osuSlice.edit_osu_config import (read_train_config, begin_slice_point, end_slice_point,
+from edit_osu_config import (read_train_config, begin_slice_point, end_slice_point,
                                       edit_new_TimingPoints, edit_new_HitObjects)
-from osuSlice.write_configurator import write_config_file
-from osuSlice.edit_mp3 import edit_train_mp3
+from write_configurator import write_config_file
+from edit_mp3 import edit_train_mp3
 from pydub import AudioSegment
-from osuSlice.search_train_files import address_list
+from search_train_files import address_list
 
-# Settings
+# Settingsьфш
 # Имя нового mp3 на выходе
 name_new_mp3 = "mytrain.mp3"  #def="mytrain.mp3"
 # Количество повторов
