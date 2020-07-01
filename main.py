@@ -7,14 +7,12 @@ from pydub import AudioSegment
 from osuSlice.search_train_files import address_list
 
 # Settings
-# Имя нового файла на выходе
-name_new_config = "new train config.osu"
 # Имя нового mp3 на выходе
-name_new_mp3 = "mytrain.mp3"
+name_new_mp3 = "mytrain.mp3"  #def="mytrain.mp3"
 # Количество повторов
 num_repeats = 10
 # Время разрыва между повторами
-break_time = 10000
+break_time = 7000
 
 
 # Работа программы
@@ -38,7 +36,7 @@ for address in address_list:
     # Создаем новое наполнение для TimingPoints
     train_config['[TimingPoints]'] = edit_new_TimingPoints(train_config, begin, end, num_repeats)
     # Записывает в новый конфиг
-    write_config_file(train_config, address_folder, name_new_config, name_new_mp3)
+    write_config_file(train_config, address_folder, name_new_mp3)
     # Сохраннение нового файла mp3
     edit_train_mp3(original_mp3, begin, end, num_repeats, break_time, address_folder, name_new_mp3)
     print("Successful processing")
