@@ -1,6 +1,6 @@
 
 def write_config_file(train_config, address_folder, name_new_mp3):
-    # Сложная структура для имени файла конфига,НУЖНО упростить и присвоить имя по аналогии с другими конфигами
+    print(f"Creates new train configuration file: {name_new_mp3}[generated_train].osu")
     f = open(f'{address_folder+"//"+train_config["[General]"][0][15:(len(train_config["[General]"][0])-4)]}[generated_train].osu', 'tw', encoding='utf-8')
     train_config['[General]'][0] = f"AudioFilename: {name_new_mp3}"
     train_config['[Metadata]'][5] = f"Version:generated_train"
@@ -10,4 +10,4 @@ def write_config_file(train_config, address_folder, name_new_mp3):
         for j in train_config[i]:
             f.write(j + '\n')
     f.close()
-    print(f"Created new train config file: {name_new_mp3}[generated_train].osu")
+
