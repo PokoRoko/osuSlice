@@ -1,16 +1,14 @@
 import os
 
-
 # Функция производит поиск по всем подпапкам и возвращает вложенные списки с путём и именем ко всем файлам *[train].osu
 # Где первый элемент списка это адресс, а второй полный адрес к файлу
-def find_train_file(dir_for_search):
+def find_train_file(dir_for_search, difficalty):
     res = []
     for root, dirs, files in os.walk(dir_for_search):
         for file in files:
-            if file.endswith("[train].osu"):
+            if file.endswith(f"[{difficalty}].osu"):
                 res += [[os.path.join(root), os.path.join(root, file)]]
     return res
-
 
 # Принимает список с адресами папок и конфиг файлов, считывает конфиг и подцепляет оттуда путь оригинального mp3 файла
 def find_old_mp3(dir_for_search):
@@ -28,4 +26,4 @@ def find_old_mp3(dir_for_search):
     return res
 
 
-address_list = find_old_mp3(find_train_file('Songs'))
+
