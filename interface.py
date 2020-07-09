@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(333, 337)
+        MainWindow.resize(594, 423)
         font = QtGui.QFont()
         font.setKerning(True)
         MainWindow.setFont(font)
@@ -71,6 +71,7 @@ class Ui_MainWindow(object):
         self.buttonStartSlice.setObjectName("buttonStartSlice")
         self.verticalLayout.addWidget(self.buttonStartSlice)
         self.logText = QtWidgets.QTextEdit(self.centralwidget)
+        self.logText.setEnabled(False)
         self.logText.setObjectName("logText")
         self.verticalLayout.addWidget(self.logText)
         self.progressBar = QtWidgets.QProgressBar(self.centralwidget)

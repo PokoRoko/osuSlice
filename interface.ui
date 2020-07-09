@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>333</width>
-    <height>337</height>
+    <width>594</width>
+    <height>423</height>
    </rect>
   </property>
   <property name="font">
@@ -123,7 +123,11 @@
      </widget>
     </item>
     <item>
-     <widget class="QTextEdit" name="logText"/>
+     <widget class="QTextEdit" name="logText">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+     </widget>
     </item>
     <item>
      <widget class="QProgressBar" name="progressBar">

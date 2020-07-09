@@ -12,6 +12,8 @@ from edit_mp3 import edit_train_mp3
 from search_train_files import find_old_mp3,find_train_file
 
 name_new_mp3 = "mytrain.mp3"
+
+
 class MyWin(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         QtWidgets.QWidget.__init__(self, parent)
@@ -19,23 +21,36 @@ class MyWin(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         # Вешаем на кнопку функцию start_slice
         self.ui.buttonStartSlice.clicked.connect(self.start_slice)
+        self.step = 0
 
-    # Описываем функцию
+    def ui_print(self,text):
+        self.ui.logText.append(text)
+        self.ui.logText.repaint()
+
+    def progress_plus(self, proc):
+        self.step = self.step + proc
+        self.ui.progressBar.setValue(self.step)
+
+    # Описываем функцию по кнопке
     def start_slice(self):
         # В переменную stroki с помощья .toPlainText получаем текст из nameDifficulty
         difficulty = self.ui.nameDifficulty.text()
         num_repeats = self.ui.numRepeat.value()
         break_time = self.ui.interval.value()
         tpf = 0  # Total processed folders
+
+
         # Работа программы
         # Попеременно проходит все папки и обрабатывает программу на них
         address_list = find_old_mp3(find_train_file(('Songs'), difficulty))
         for address in address_list:
+
             address_folder = address[0]  # Путь к папке
             address_config = address[1]  # Полный путь к файлу конфикурации
             address_mp3 = address[2]     # Полный путь к mp3
-            print(f'{tpf+1}/{len(address_list)}')
-            print(f'Folder processing: .\{address_folder}')
+
+            self.ui_print(f'{tpf+1}/{len(address_list)}\nFolder processing: .\{address_folder}')
+            self.progress_plus(int(100/len(address_list)))
             # Путь к исходному файлу с конфигурацией
             train_config = read_train_config(address_config)
             # Определяет начало отрезка в мс и отнимает половину интервала для набора звука
@@ -47,18 +62,20 @@ class MyWin(QtWidgets.QMainWindow):
             # Создаем новое наполнение для TimingPoints
             train_config['[TimingPoints]'] = edit_new_TimingPoints(train_config, begin, end, num_repeats)
             # Записывает в новый конфиг
+            self.ui_print(f"Creates new train configuration file: {name_new_mp3}[generated].osu")
             write_config_file(train_config, address_folder, name_new_mp3)
             # Сохраннение нового файла mp3
+            self.ui_print(f"Creates new mp3 file: {name_new_mp3}")
             edit_train_mp3(address_mp3, begin, end, num_repeats, break_time, address_folder, name_new_mp3)
-            print(f"Folder processing finished: {address_folder}")
-            print('______________________________________________')
+            self.ui_print(f"Folder processing finished: {address_folder}\n______________________")
+
             tpf += 1
 
 
         if tpf == 0:
-            print(f'Train files difficulty:{difficulty} not found.')
+            self.ui_print(f'Train files difficulty:{difficulty} not found.')
         else:
-            print(f'Total processed folders: {tpf}')
+            self.ui_print(f'Done! \nTotal processed folders: {tpf}')
 
 # TO_DO
 # Сделать проверку на обработанные папки чтобы не обрабатывать заново
