@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(224, 337)
+        MainWindow.resize(333, 337)
         font = QtGui.QFont()
         font.setKerning(True)
         MainWindow.setFont(font)

@@ -34,6 +34,7 @@ class MyWin(QtWidgets.QMainWindow):
             address_folder = address[0]  # Путь к папке
             address_config = address[1]  # Полный путь к файлу конфикурации
             address_mp3 = address[2]     # Полный путь к mp3
+            print(f'{tpf+1}/{len(address_list)}')
             print(f'Folder processing: .\{address_folder}')
             # Путь к исходному файлу с конфигурацией
             train_config = read_train_config(address_config)
@@ -54,10 +55,10 @@ class MyWin(QtWidgets.QMainWindow):
             tpf += 1
 
 
-        # if tpf == 0:
-        #     print('Train files not found.')
-        # else:
-        #     print(f'Total processed folders: {tpf}')
+        if tpf == 0:
+            print(f'Train files difficulty:{difficulty} not found.')
+        else:
+            print(f'Total processed folders: {tpf}')
 
 # TO_DO
 # Сделать проверку на обработанные папки чтобы не обрабатывать заново
