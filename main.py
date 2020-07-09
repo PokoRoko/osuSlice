@@ -50,7 +50,7 @@ class MyWin(QtWidgets.QMainWindow):
             # Сохраннение нового файла mp3
             edit_train_mp3(address_mp3, begin, end, num_repeats, break_time, address_folder, name_new_mp3)
             print(f"Folder processing finished: {address_folder}")
-            print('_____')
+            print('______________________________________________')
             tpf += 1
 
 

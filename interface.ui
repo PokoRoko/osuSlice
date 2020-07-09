@@ -6,42 +6,49 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>326</width>
-    <height>339</height>
+    <width>224</width>
+    <height>337</height>
    </rect>
+  </property>
+  <property name="font">
+   <font>
+    <kerning>true</kerning>
+   </font>
   </property>
   <property name="windowTitle">
    <string>osuSlice</string>
   </property>
+  <property name="iconSize">
+   <size>
+    <width>30</width>
+    <height>28</height>
+   </size>
+  </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="4" column="0">
-     <widget class="QLabel" name="label_3">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="font">
+    <font>
+     <kerning>true</kerning>
+    </font>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="label">
       <property name="font">
        <font>
         <weight>75</weight>
         <bold>true</bold>
+        <kerning>true</kerning>
        </font>
       </property>
       <property name="text">
-       <string>Interval between repeats (ms)</string>
+       <string>Name difficulty to find</string>
       </property>
      </widget>
     </item>
-    <item row="5" column="0">
-     <widget class="QSpinBox" name="interval">
-      <property name="maximum">
-       <number>30000</number>
-      </property>
-      <property name="singleStep">
-       <number>250</number>
-      </property>
-      <property name="value">
-       <number>6000</number>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
+    <item>
      <widget class="QLineEdit" name="nameDifficulty">
       <property name="locale">
        <locale language="English" country="UnitedStates"/>
@@ -54,7 +61,21 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="0">
+    <item>
+     <widget class="QLabel" name="label_2">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+        <kerning>true</kerning>
+       </font>
+      </property>
+      <property name="text">
+       <string>Number of repeat</string>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QSpinBox" name="numRepeat">
       <property name="minimum">
        <number>1</number>
@@ -67,40 +88,44 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_2">
+    <item>
+     <widget class="QLabel" name="label_3">
       <property name="font">
        <font>
         <weight>75</weight>
         <bold>true</bold>
+        <kerning>true</kerning>
        </font>
       </property>
       <property name="text">
-       <string>Number of repeat</string>
+       <string>Interval between repeats (ms)</string>
       </property>
      </widget>
     </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="label">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
+    <item>
+     <widget class="QSpinBox" name="interval">
+      <property name="maximum">
+       <number>30000</number>
       </property>
-      <property name="text">
-       <string>Name difficulty to create new train game</string>
+      <property name="singleStep">
+       <number>250</number>
+      </property>
+      <property name="value">
+       <number>6000</number>
       </property>
      </widget>
     </item>
-    <item row="6" column="0">
+    <item>
      <widget class="QPushButton" name="buttonStartSlice">
       <property name="text">
        <string>Start Slice</string>
       </property>
      </widget>
     </item>
-    <item row="8" column="0">
+    <item>
+     <widget class="QTextEdit" name="logText"/>
+    </item>
+    <item>
      <widget class="QProgressBar" name="progressBar">
       <property name="value">
        <number>0</number>
@@ -113,12 +138,15 @@
       </property>
      </widget>
     </item>
-    <item row="7" column="0">
-     <widget class="QListView" name="listView"/>
-    </item>
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>interval</tabstop>
+  <tabstop>nameDifficulty</tabstop>
+  <tabstop>buttonStartSlice</tabstop>
+  <tabstop>numRepeat</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
