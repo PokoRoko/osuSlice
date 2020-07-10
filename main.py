@@ -33,10 +33,10 @@ class MyWin(QtWidgets.QMainWindow):
 
     # Описываем функцию по кнопке
     def start_slice(self):
-        # В переменную stroki с помощья .toPlainText получаем текст из nameDifficulty
-        difficulty = self.ui.nameDifficulty.text()
-        num_repeats = self.ui.numRepeat.value()
-        break_time = self.ui.interval.value()
+        self.step = 0
+        difficulty = self.ui.nameDifficulty.text()  # Считываем сложность с интерфейса
+        num_repeats = self.ui.numRepeat.value()  # Считываем количество повторов с интерфейса
+        break_time = self.ui.interval.value()  # Считываем время интервала с интерфейса
         tpf = 0  # Total processed folders
 
 
@@ -68,14 +68,13 @@ class MyWin(QtWidgets.QMainWindow):
             self.ui_print(f"Creates new mp3 file: {name_new_mp3}")
             edit_train_mp3(address_mp3, begin, end, num_repeats, break_time, address_folder, name_new_mp3)
             self.ui_print(f"Folder processing finished: {address_folder}\n______________________")
-
             tpf += 1
 
 
         if tpf == 0:
             self.ui_print(f'Train files difficulty:{difficulty} not found.')
         else:
-            self.ui_print(f'Done! \nTotal processed folders: {tpf}')
+            self.ui_print(f'Total processed folders: {tpf}\nDone!')
 
 # TO_DO
 # Сделать проверку на обработанные папки чтобы не обрабатывать заново
