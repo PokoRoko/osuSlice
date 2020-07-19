@@ -13,7 +13,7 @@ from search_train_files import find_old_mp3,find_train_file
 
 name_new_mp3 = "mytrain.mp3"
 
-
+#Todo Убрать класс из main
 class MyWin(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         QtWidgets.QWidget.__init__(self, parent)
@@ -23,7 +23,7 @@ class MyWin(QtWidgets.QMainWindow):
         self.ui.buttonStartSlice.clicked.connect(self.start_slice)
         self.step = 0
 
-    def ui_print(self,text):
+    def ui_print(self, text):
         self.ui.logText.append(text)
         self.ui.logText.repaint()
 
